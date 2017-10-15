@@ -15,6 +15,9 @@ public class MailEntity {
 	@Value("${spring.mail.password}")
 	private String passwd;
 	
+	@Value("${spring.mail.protocol}")
+	private String protocal;
+	
 	public void setMailHost(String mailHost)
 	{
 		this.mailHost = mailHost;
@@ -30,6 +33,10 @@ public class MailEntity {
 		this.passwd = passwd;
 	}
 	
+	public void setProtocol(String protocol)
+	{
+		this.protocal = protocol;
+	}
 	public String getMailHost()
 	{
 		return this.mailHost;
@@ -40,8 +47,13 @@ public class MailEntity {
 		return this.userName;
 	}
 	
-	public String setPassWord()
+	public String getPassWord()
 	{
 		return this.passwd;
+	}
+	
+	public String getProtocol()
+	{
+		return this.protocal;
 	}
 }
