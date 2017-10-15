@@ -1,5 +1,7 @@
 package com.demo.maildemo.mail.controller;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,4 +28,12 @@ public class MailController {
         mailUtil.sendSimpleMail(sendTo, titel, content);
 		return "success";
 	} 
+	
+	@RequestMapping(value = "/recive",method=RequestMethod.GET)
+	public Object reciveMail() throws MessagingException
+	{
+		String result =  Integer.toString(mailUtil.reciveMail());
+		System.out.println("wuke" + "-->" + result);
+		return "qw";
+	}
 }
