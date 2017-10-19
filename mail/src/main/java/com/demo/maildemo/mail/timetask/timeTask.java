@@ -1,5 +1,6 @@
 package com.demo.maildemo.mail.timetask;
 
+import java.io.IOException;
 import java.util.TimerTask;
 
 import javax.mail.MessagingException;
@@ -20,6 +21,9 @@ public class timeTask extends TimerTask{
 			} catch (MessagingException e) {
 					// TODO Auto-generated catch block
 			e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			System.out.print("test-->"+Integer.toString(result));	
 	}

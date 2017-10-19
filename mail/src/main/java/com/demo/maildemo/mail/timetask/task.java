@@ -1,5 +1,7 @@
 package com.demo.maildemo.mail.timetask;
 
+import java.io.IOException;
+
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class task implements Runnable{
 			} catch (MessagingException e) {
 					// TODO Auto-generated catch block
 			e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			System.out.print("test-->"+Integer.toString(result));	
 	}
