@@ -118,6 +118,7 @@ public class MailUtil {
 	    	 for(int i=0;i<multipart.getCount();i++)
 	    	 {
 	    		 BodyPart bodyPart = multipart.getBodyPart(i);
+	    		 //只打印邮件正文文本
 	    		 if(bodyPart.isMimeType("text/plain"))
 	    		 {
 	    			 String[] string = bodyPart.getContent().toString().split("\n");
