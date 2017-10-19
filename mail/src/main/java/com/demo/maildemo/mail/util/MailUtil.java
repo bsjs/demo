@@ -1,14 +1,20 @@
 package com.demo.maildemo.mail.util;
 
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -46,7 +52,7 @@ public class MailUtil {
         mailSender.send(message);  
     } 
 	
-	public int reciveMail() throws MessagingException
+	public int reciveMail() throws MessagingException, IOException
 	{
 		int size = -1;
 		//配置连接协议
@@ -56,7 +62,7 @@ public class MailUtil {
 		
 		//获取一个会话
 		Session session = Session.getInstance(properties);
-		session.setDebug(true);
+		//session.setDebug(true);
 		
 		//打开邮件文件夹
 		Store store = session.getStore();
@@ -68,10 +74,12 @@ public class MailUtil {
 		
 		//pop3 不支持了
 		Flags flag = folder.getPermanentFlags();
-		System.out.print("all mail count"+"-->"+Integer.toString(folder.getMessageCount()));
+		System.out.print("all mail count"+"-->"+Integer.toString(folder.getMessageCount())+"\n");
 		
 		//获取邮件夹Folder内所有的邮件Message对象
 		Message [] messages = folder.getMessages();
+		
+		printMail(messages);
 		size = folder.getMessageCount();
 		
 		System.out.print("new mail"+"-->"+Integer.toString(folder.getNewMessageCount()));
@@ -96,5 +104,38 @@ public class MailUtil {
 		folder.close(false);
 		store.close();
 		return size;
+	}
+	
+	public void printMail(Message[] messages) throws IOException, MessagingException
+	{
+	     Message message = messages[0];
+	     
+	     //复合类型
+	     if(message.isMimeType("multipart/*"))
+	     {
+	    	 Multipart multipart = (Multipart) message.getContent();
+	    	 
+	    	 for(int i=0;i<multipart.getCount();i++)
+	    	 {
+	    		 BodyPart bodyPart = multipart.getBodyPart(i);
+	    		 if(bodyPart.isMimeType("text/plain"))
+	    		 {
+	    			 String[] string = bodyPart.getContent().toString().split("\n");
+	    			 for(int j= 0 ;j<string.length;j++)
+	    			 {
+	    			 
+	    				 System.out.print("index" +Integer.toString(j) + " "+ string[j]);
+	    			 }
+	    		 }
+	    	 }
+	     }
+	     /*
+	     String[] string = (message.toString()).split("/n");
+	     
+	     for(String s:string)
+	     {
+	    	 System.out.println(s);
+	     }
+	     */
 	}
 }
